@@ -1,4 +1,4 @@
-collectd-pw (5.4.0.20140219-1+caewheezy1) wheezy-backports; urgency=low
+collectd-pw (5.4.0.20140219-1+caewheezy1) cae-wheezy-backports; urgency=low
 
   * Adding CAE specific patches back in to a separate branch.
 
