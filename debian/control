@@ -10,16 +10,16 @@ Build-Depends: debhelper (>= 5), dpkg-dev (>= 1.14.10), po-debconf, dpatch,
  libcurl4-gnutls-dev (>= 7.18.2-5) | libcurl4-gnutls-dev (<= 7.18.2-1) | libcurl3-gnutls-dev,
  libdbi0-dev,
  libesmtp-dev,
- libganglia1-dev (>= 3) [linux-any],
+# libganglia1-dev (>= 3) [linux-any],	# cae
  libgcrypt11-dev,
  libglib2.0-dev,
  libkvm-dev [kfreebsd-any],
  liblvm2-dev [linux-any],
  libmemcached-dev,
- libmodbus-dev,
+# libmodbus-dev,			# cae
  libmnl-dev [linux-any],
  libmysqlclient-dev,
- libnotify-dev,
+# libnotify-dev,			# cae
  libopenipmi-dev,
  liboping-dev (>= 0.3.3),
  libpcap0.8-dev | libpcap-dev,
@@ -33,8 +33,8 @@ Build-Depends: debhelper (>= 5), dpkg-dev (>= 1.14.10), po-debconf, dpatch,
 # libsnmp-dev (>= 5.4.2.1~dfsg-4~) | (libsnmp-dev & perl (<< 5.10.1~rc2-1~))
  libsnmp-dev (>= 5.4.2.1~dfsg-4~) | libsnmp-dev | libsnmp9-dev,
  libsnmp-dev (>= 5.4.2.1~dfsg-4~) | perl (<< 5.10.1~rc2-1~),
- libtokyocabinet-dev [linux-any],
- libtokyotyrant-dev [linux-any],
+# libtokyocabinet-dev [linux-any],	# cae
+# libtokyotyrant-dev [linux-any],	# cae
  libupsclient1-dev,
  libvarnish-dev,
  libvirt-dev (>= 0.4.0-6) [linux-any],
@@ -57,7 +57,8 @@ Provides: collectd-core
 Conflicts: collectd-core
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Recommends: perl, rrdtool
+#Recommends: perl, rrdtool	# cae
+Recommends: perl
 Suggests: collectd-pw-dev,
 # collection.cgi / collection3 dependencies
  librrds-perl, liburi-perl, libhtml-parser-perl, libregexp-common-perl,
@@ -180,14 +181,15 @@ Description: statistics collection and monitoring daemon (core system)
    * send collected values to a web-server: write_http
    * send collected values to a riemann server: write_riemann
  .
- The -pw version of this package is patched for compatibility with PerfWatcher.
+ The -pw version of this package is patched for compatibility with PerfWatcher by CAE.
 
 Package: collectd-pw
 Provides: collectd
 Conflicts: collectd
 Architecture: any
 Depends: collectd-pw-core, ${shlibs:Depends}, ${misc:Depends}
-Recommends: ${shlibs:Recommends}, default-jre-headless
+#Recommends: ${shlibs:Recommends}, default-jre-headless	# cae
+Recommends: ${shlibs:Recommends}
 Description: statistics collection and monitoring daemon
  collectd is a small daemon which collects system information periodically and
  provides mechanisms to monitor and store the values in a variety of ways.
@@ -203,7 +205,7 @@ Description: statistics collection and monitoring daemon
  allows sites to, e.g., provide customizations (like a custom default
  configuration) on top of it without having to modify the "collectd" package.
  .
- The -pw version of this package is patched for compatibility with PerfWatcher.
+ The -pw version of this package is patched for compatibility with PerfWatcher by CAE.
 
 Package: collectd-pw-utils
 Provides: collectd-utils
@@ -225,7 +227,7 @@ Description: statistics collection and monitoring daemon (utilities)
    * collectdctl: Control interface for collectd
    * collectd-nagios: Nagios plugin for querying collectd
  .
- The -pw version of this package is patched for compatibility with PerfWatcher.
+ The -pw version of this package is patched for compatibility with PerfWatcher by CAE.
 
 Package: collectd-pw-dbg
 Provides: collectd-dbg
@@ -245,7 +247,7 @@ Description: statistics collection and monitoring daemon (debugging symbols)
  .
  This package contains the debugging symbols.
  .
- The -pw version of this package is patched for compatibility with PerfWatcher.
+ The -pw version of this package is patched for compatibility with PerfWatcher by CAE.
 
 Package: collectd-pw-dev
 Provides: collectd-dev
@@ -263,7 +265,7 @@ Description: statistics collection and monitoring daemon (development files)
  This package contains the development files needed to create your own
  plugins.
  .
- The -pw version of this package is patched for compatibility with PerfWatcher.
+ The -pw version of this package is patched for compatibility with PerfWatcher by CAE.
 
 Package: libcollectdclient-pw-dev
 Provides: libcollectdclient-dev
@@ -282,7 +284,7 @@ Description: client library for collectd's control interface (development files)
  .
  This package contains the header files and the static library.
  .
- The -pw version of this package is patched for compatibility with PerfWatcher.
+ The -pw version of this package is patched for compatibility with PerfWatcher by CAE.
 
 Package: libcollectdclient1-pw
 Provides: libcollectdclient1
@@ -300,5 +302,5 @@ Description: client library for collectd's control interface
  .
  This package contains the shared library.
  .
- The -pw version of this package is patched for compatibility with PerfWatcher.
+ The -pw version of this package is patched for compatibility with PerfWatcher by CAE.
 
