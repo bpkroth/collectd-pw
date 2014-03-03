@@ -1,3 +1,15 @@
+collectd-pw (5.4.0.20140219-1+caewheezy1) wheezy-backports; urgency=low
+
+  * Adding CAE specific patches back in to a separate branch.
+
+ -- Brian Kroth <bpkroth@gmail.com>  Mon, 03 Mar 2014 15:15:53 -0600
+
+collectd-pw (5.4.0.20140219-1) wheezy-backports; urgency=low
+
+  * Merge collectd-pw 5.4.0.20140219 release changes.
+
+ -- Brian Kroth <bpkroth@gmail.com>  Mon, 03 Mar 2014 15:15:53 -0600
+
 collectd-pw (5.4.0.20131206-2) wheezy-backports; urgency=low
 
   * Preparing git fork/branch of Debian packaging patches for upstream

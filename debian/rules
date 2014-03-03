@@ -15,6 +15,9 @@ DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 
 export DEB_BUILD_MAINT_OPTIONS=hardening=+all
 
+# Adding Oracle support for CAE
+#export ORACLE_HOME = /opt/oracle
+
 CPPFLAGS = $(shell dpkg-buildflags --get CPPFLAGS)
 CPPFLAGS += -I$(CURDIR)/debian/include
 CFLAGS = $(shell dpkg-buildflags --get CFLAGS)
@@ -79,6 +82,7 @@ confflags += --disable-netapp
 confflags += --disable-onewire
 
 # libclntsh is required for the oracle plugin.
+# CAE has that.
 confflags += --disable-oracle
 
 # libcredis is required for the *redis plugins.
@@ -158,6 +162,22 @@ endif
 ifneq (,$(filter hppa, $(DEB_BUILD_ARCH)))
 	confflags += --disable-java
 endif
+
+# CAE Tweaks for our backported collectd 5.4.
+# We're also going to disable some plugins we don't think we'll have any use for.
+# See Also: debian/control
+# 2014-01-22
+# bpkroth
+
+# Not available in squeeze
+#confflags += --disable-amqp
+# No need.
+confflags += --disable-gmond
+confflags += --disable-java
+confflags += --disable-modbus
+confflags += --disable-notify_desktop
+confflags += --disable-tokyotyrant
+confflags += --disable-teamspeak2
 
 
 config.status: configure $(DPATCH_STAMPFN)
