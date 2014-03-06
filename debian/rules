@@ -170,7 +170,7 @@ endif
 # bpkroth
 
 # Not available in squeeze
-#confflags += --disable-amqp
+confflags += --disable-amqp
 # No need.
 confflags += --disable-gmond
 confflags += --disable-java
