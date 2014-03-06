@@ -1,3 +1,10 @@
+collectd-pw (5.4.0.20140219-1+caewheezy2) cae-wheezy-backports; urgency=low
+
+  * Cherry pick and merge apache/curl plugin fixes from
+    https://github.com/collectd/collectd/pull/526
+
+ -- Brian Kroth <bpkroth@gmail.com>  Thu, 06 Mar 2014 15:53:34 -0600
+
 collectd-pw (5.4.0.20140219-1+caewheezy1) cae-wheezy-backports; urgency=low
 
   * Adding CAE specific patches back in to a separate branch.
