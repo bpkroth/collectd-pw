@@ -675,6 +675,7 @@ static int apache_init (void) /* {{{ */
 {
 	/* Call this while collectd is still single-threaded to avoid
 	 * initialization issues in libgcrypt. */
+	gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
 	curl_global_init (CURL_GLOBAL_SSL);
 	return (0);
 } /* }}} int apache_init */

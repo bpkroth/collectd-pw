@@ -569,6 +569,7 @@ static int cc_init (void) /* {{{ */
     INFO ("curl plugin: No pages have been defined.");
     return (-1);
   }
+  gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
   curl_global_init (CURL_GLOBAL_SSL);
   return (0);
 } /* }}} int cc_init */
