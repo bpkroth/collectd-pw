@@ -28,6 +28,10 @@
 #include "utils_match.h"
 #include "utils_time.h"
 
+#if HAVE_LIBGCRYPT
+#include <gcrypt.h>
+#endif
+
 #include <curl/curl.h>
 
 /*
@@ -569,7 +573,18 @@ static int cc_init (void) /* {{{ */
     INFO ("curl plugin: No pages have been defined.");
     return (-1);
   }
+#ifdef HAVE_GCRYPT
+  /* http://lists.gnupg.org/pipermail/gcrypt-devel/2003-August/000458.html
+   * Because you can't know in a library whether another library has
+   * already initialized the library */
+  if (gcry_control (GCRYCTL_ANY_INITIALIZATION_P))
+    return;
+
+  gcry_check_version (NULL); /* before calling any other functions */
   gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
+  gcry_control (GCRYCTL_DISABLE_SECMEM);
+  gcry_control (GCRYCTL_INITIALIZATION_FINISHED);
+#endif
   curl_global_init (CURL_GLOBAL_SSL);
   return (0);
 } /* }}} int cc_init */
