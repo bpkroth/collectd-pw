@@ -1,16 +1,16 @@
-collectd-pw (5.4.0.20140219-1+caewheezy1) cae-wheezy-backports; urgency=low
+collectd-pw (5.4.0.20140219-1+caesqueeze1) cae-squeeze-backports; urgency=low
 
   * Adding CAE specific patches back in to a separate branch.
 
  -- Brian Kroth <bpkroth@gmail.com>  Mon, 03 Mar 2014 15:15:53 -0600
 
-collectd-pw (5.4.0.20140219-1) wheezy-backports; urgency=low
+collectd-pw (5.4.0.20140219-1) squeeze-backports; urgency=low
 
   * Merge collectd-pw 5.4.0.20140219 release changes.
 
  -- Brian Kroth <bpkroth@gmail.com>  Mon, 03 Mar 2014 15:15:53 -0600
 
-collectd-pw (5.4.0.20131206-2) wheezy-backports; urgency=low
+collectd-pw (5.4.0.20131206-2) squeeze-backports; urgency=low
 
   * Preparing git fork/branch of Debian packaging patches for upstream
     collectd-pw.
@@ -18,23 +18,24 @@ collectd-pw (5.4.0.20131206-2) wheezy-backports; urgency=low
 
  -- Brian Kroth <bpkroth@gmail.com>  Mon, 17 Feb 2014 13:46:37 -0600
 
-collectd-pw (5.4.0.20131206-1+caewheezy2) cae-wheezy-backports; urgency=low
+collectd-pw (5.4.0.20131206-1+caesqueeze2) cae-squeeze-backports; urgency=low
 
   * Fix libcollectdclient1 dependencies.
   * Add more /usr/share/doc/ links for the original collectd packages.
 
  -- Brian Kroth <bpkroth@gmail.com>  Thu, 13 Feb 2014 16:55:56 -0600
 
-collectd-pw (5.4.0.20131206-1+caewheezy1) cae-wheezy-backports; urgency=low
+collectd-pw (5.4.0.20131206-1+caesqueeze1) cae-squeeze-backports; urgency=low
 
-  * Preparing a collectd-pw (PerfWatcher) package for wheezy based off of the
+  * Preparing a collectd-pw (PerfWatcher) package for squeeze based off of the
     Debian (actually CAE maintained version of the) collectd package.
 
  -- Brian Kroth <bpkroth@gmail.com>  Wed, 12 Feb 2014 20:52:21 -0600
 
-collectd (5.4.0-3+caewheezy1) cae-wheezy-backports; urgency=low
+collectd (5.4.0-3+caesqueeze1) cae-squeeze-backports; urgency=low
 
   * Non-maintainer upload.
+  * Backporting for squeeze.
   * Disabling a number of plugins unnecessary at CAE to reduce dependencies.
   * Enabling netlink plugin.
 

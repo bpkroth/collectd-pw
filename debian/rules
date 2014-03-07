@@ -170,7 +170,7 @@ endif
 # bpkroth
 
 # Not available in squeeze
-#confflags += --disable-amqp
+confflags += --disable-amqp
 # No need.
 confflags += --disable-gmond
 confflags += --disable-java
@@ -179,6 +179,13 @@ confflags += --disable-notify_desktop
 confflags += --disable-tokyotyrant
 confflags += --disable-teamspeak2
 
+# Skipping the backport of libmicrohttpd for squeeze, so we have to disable this too.
+confflags += \
+	--disable-jsonrpc \
+	--disable-jsonrpc_base \
+	--disable-jsonrpc_perfwatcher \
+	--disable-jsonrpc_topps
+	     	
 
 config.status: configure $(DPATCH_STAMPFN)
 	dh_testdir
