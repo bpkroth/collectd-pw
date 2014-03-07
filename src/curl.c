@@ -28,15 +28,6 @@
 #include "utils_match.h"
 #include "utils_time.h"
 
-#if HAVE_PTHREAD_H
-# include <pthread.h>
-#endif
-
-#if HAVE_GCRYPT_H
-# include <gcrypt.h>
-GCRY_THREAD_OPTION_PTHREAD_IMPL;
-#endif
-
 #include <curl/curl.h>
 
 /*
@@ -578,9 +569,6 @@ static int cc_init (void) /* {{{ */
     INFO ("curl plugin: No pages have been defined.");
     return (-1);
   }
-#if HAVE_GCRYPT_H
-  gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
-#endif
   curl_global_init (CURL_GLOBAL_SSL);
   return (0);
 } /* }}} int cc_init */

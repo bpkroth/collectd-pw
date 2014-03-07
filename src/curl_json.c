@@ -32,15 +32,6 @@
 #include <sys/types.h>
 #include <sys/un.h>
 
-#if HAVE_PTHREAD_H
-# include <pthread.h>
-#endif
-
-#if HAVE_GCRYPT_H
-# include <gcrypt.h>
-GCRY_THREAD_OPTION_PTHREAD_IMPL;
-#endif
-
 #include <curl/curl.h>
 
 #include <yajl/yajl_parse.h>
@@ -967,9 +958,6 @@ static int cj_read (user_data_t *ud) /* {{{ */
 
 static int cj_init (void) /* {{{ */
 {
-#if HAVE_GCRYPT_H
-  gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
-#endif
   /* Call this while collectd is still single-threaded to avoid
    * initialization issues in libgcrypt. */
   curl_global_init (CURL_GLOBAL_SSL);
