@@ -46,6 +46,11 @@
 # include <sys/select.h>
 #endif
 
+#if HAVE_LIBGCRYPT
+#include <gcrypt.h>
+GCRY_THREAD_OPTION_PTHREAD_IMPL;
+#endif
+
 #include <curl/curl.h>
 #include <libxml/parser.h>
 #include <libxml/xpath.h>
@@ -1385,6 +1390,10 @@ static int bind_init (void) /* {{{ */
 {
   if (curl != NULL)
     return (0);
+
+#ifdef HAVE_GCRYPT
+  gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
+#endif
 
   /* Call this while collectd is still single-threaded to avoid
    * initialization issues in libgcrypt. */

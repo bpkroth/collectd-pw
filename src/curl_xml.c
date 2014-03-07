@@ -30,6 +30,11 @@
 #include <libxml/xpath.h>
 #include <libxml/xpathInternals.h>
 
+#if HAVE_LIBGCRYPT
+#include <gcrypt.h>
+GCRY_THREAD_OPTION_PTHREAD_IMPL;
+#endif
+
 #include <curl/curl.h>
 
 #define CX_DEFAULT_HOST "localhost"
@@ -1034,6 +1039,9 @@ static int cx_config (oconfig_item_t *ci) /* {{{ */
 
 static int cx_init (void) /* {{{ */
 {
+#ifdef HAVE_GCRYPT
+  gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
+#endif
   /* Call this while collectd is still single-threaded to avoid
    * initialization issues in libgcrypt. */
   curl_global_init (CURL_GLOBAL_SSL);
