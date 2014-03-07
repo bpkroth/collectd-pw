@@ -46,8 +46,12 @@
 # include <sys/select.h>
 #endif
 
+#if HAVE_PTHREAD_H
+# include <pthread.h>
+#endif
+
 #if HAVE_LIBGCRYPT
-#include <gcrypt.h>
+# include <gcrypt.h>
 GCRY_THREAD_OPTION_PTHREAD_IMPL;
 #endif
 
