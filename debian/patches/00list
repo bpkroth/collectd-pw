@@ -4,3 +4,4 @@ myplugin_includes.dpatch
 bts559801_plugin_find_fix.dpatch
 #amqp_0_4.dpatch	# Unnecessary for wheezy backport.
 pw_warning_fixes.dpatch
+gcrypt-curl-squeeze

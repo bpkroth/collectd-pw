@@ -1,0 +1,179 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## gcrypt-curl-squeeze.dpatch by Brian Kroth <bpkroth@gmail.com>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Fix some threading issues that squeeze has between curl, gnutls, and gcrypt - RT #228055
+
+@DPATCH@
+diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/apache.c collectd-pw/src/apache.c
+--- collectd-pw~/src/apache.c	2014-03-07 15:44:58.000000000 -0600
++++ collectd-pw/src/apache.c	2014-03-07 15:48:47.890863407 -0600
+@@ -29,6 +29,15 @@
+ #include "plugin.h"
+ #include "configfile.h"
+ 
++#if HAVE_PTHREAD_H
++# include <pthread.h>
++#endif
++
++#if HAVE_GCRYPT_H
++# include <gcrypt.h>
++GCRY_THREAD_OPTION_PTHREAD_IMPL;
++#endif
++
+ #include <curl/curl.h>
+ 
+ enum server_enum
+@@ -673,6 +682,9 @@
+ 
+ static int apache_init (void) /* {{{ */
+ {
++#if HAVE_GCRYPT_H
++	gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
++#endif
+ 	/* Call this while collectd is still single-threaded to avoid
+ 	 * initialization issues in libgcrypt. */
+ 	curl_global_init (CURL_GLOBAL_SSL);
+diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/bind.c collectd-pw/src/bind.c
+--- collectd-pw~/src/bind.c	2014-03-07 15:44:58.000000000 -0600
++++ collectd-pw/src/bind.c	2014-03-07 15:48:47.894863545 -0600
+@@ -46,6 +46,15 @@
+ # include <sys/select.h>
+ #endif
+ 
++#if HAVE_PTHREAD_H
++# include <pthread.h>
++#endif
++
++#if HAVE_GCRYPT_H
++# include <gcrypt.h>
++GCRY_THREAD_OPTION_PTHREAD_IMPL;
++#endif
++
+ #include <curl/curl.h>
+ #include <libxml/parser.h>
+ #include <libxml/xpath.h>
+@@ -1386,6 +1395,10 @@
+   if (curl != NULL)
+     return (0);
+ 
++#if HAVE_GCRYPT_H
++  gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
++#endif
++
+   /* Call this while collectd is still single-threaded to avoid
+    * initialization issues in libgcrypt. */
+   curl_global_init (CURL_GLOBAL_SSL);
+diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/curl.c collectd-pw/src/curl.c
+--- collectd-pw~/src/curl.c	2014-03-07 15:44:58.000000000 -0600
++++ collectd-pw/src/curl.c	2014-03-07 15:48:47.894863545 -0600
+@@ -28,6 +28,15 @@
+ #include "utils_match.h"
+ #include "utils_time.h"
+ 
++#if HAVE_PTHREAD_H
++# include <pthread.h>
++#endif
++
++#if HAVE_GCRYPT_H
++# include <gcrypt.h>
++GCRY_THREAD_OPTION_PTHREAD_IMPL;
++#endif
++
+ #include <curl/curl.h>
+ 
+ /*
+@@ -569,6 +578,9 @@
+     INFO ("curl plugin: No pages have been defined.");
+     return (-1);
+   }
++#if HAVE_GCRYPT_H
++  gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
++#endif
+   curl_global_init (CURL_GLOBAL_SSL);
+   return (0);
+ } /* }}} int cc_init */
+diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/curl_json.c collectd-pw/src/curl_json.c
+--- collectd-pw~/src/curl_json.c	2014-03-07 15:44:58.000000000 -0600
++++ collectd-pw/src/curl_json.c	2014-03-07 15:48:47.894863545 -0600
+@@ -32,6 +32,15 @@
+ #include <sys/types.h>
+ #include <sys/un.h>
+ 
++#if HAVE_PTHREAD_H
++# include <pthread.h>
++#endif
++
++#if HAVE_GCRYPT_H
++# include <gcrypt.h>
++GCRY_THREAD_OPTION_PTHREAD_IMPL;
++#endif
++
+ #include <curl/curl.h>
+ 
+ #include <yajl/yajl_parse.h>
+@@ -958,6 +967,9 @@
+ 
+ static int cj_init (void) /* {{{ */
+ {
++#if HAVE_GCRYPT_H
++  gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
++#endif
+   /* Call this while collectd is still single-threaded to avoid
+    * initialization issues in libgcrypt. */
+   curl_global_init (CURL_GLOBAL_SSL);
+diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/curl_xml.c collectd-pw/src/curl_xml.c
+--- collectd-pw~/src/curl_xml.c	2014-03-07 15:44:58.000000000 -0600
++++ collectd-pw/src/curl_xml.c	2014-03-07 15:48:47.894863545 -0600
+@@ -30,6 +30,16 @@
+ #include <libxml/xpath.h>
+ #include <libxml/xpathInternals.h>
+ 
++
++#if HAVE_PTHREAD_H
++# include <pthread.h>
++#endif
++
++#if HAVE_GCRYPT_H
++# include <gcrypt.h>
++GCRY_THREAD_OPTION_PTHREAD_IMPL;
++#endif
++
+ #include <curl/curl.h>
+ 
+ #define CX_DEFAULT_HOST "localhost"
+@@ -1034,6 +1044,9 @@
+ 
+ static int cx_init (void) /* {{{ */
+ {
++#if HAVE_GCRYPT_H
++  gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
++#endif
+   /* Call this while collectd is still single-threaded to avoid
+    * initialization issues in libgcrypt. */
+   curl_global_init (CURL_GLOBAL_SSL);
+diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/write_http.c collectd-pw/src/write_http.c
+--- collectd-pw~/src/write_http.c	2014-03-07 15:44:58.000000000 -0600
++++ collectd-pw/src/write_http.c	2014-03-07 15:48:47.894863545 -0600
+@@ -34,6 +34,11 @@
+ # include <pthread.h>
+ #endif
+ 
++#if HAVE_GCRYPT_H
++# include <gcrypt.h>
++GCRY_THREAD_OPTION_PTHREAD_IMPL;
++#endif
++
+ #include <curl/curl.h>
+ 
+ /*
+@@ -592,6 +597,9 @@
+ 
+ static int wh_init (void) /* {{{ */
+ {
++#if HAVE_GCRYPT_H
++  gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
++#endif
+   /* Call this while collectd is still single-threaded to avoid
+    * initialization issues in libgcrypt. */
+   curl_global_init (CURL_GLOBAL_SSL);
