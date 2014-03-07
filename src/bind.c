@@ -50,7 +50,7 @@
 # include <pthread.h>
 #endif
 
-#if HAVE_LIBGCRYPT_H
+#if HAVE_GCRYPT_H
 # include <gcrypt.h>
 GCRY_THREAD_OPTION_PTHREAD_IMPL;
 #endif
@@ -1395,7 +1395,7 @@ static int bind_init (void) /* {{{ */
   if (curl != NULL)
     return (0);
 
-#if HAVE_LIBGCRYPT_H
+#if HAVE_GCRYPT_H
   gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
 #endif
 

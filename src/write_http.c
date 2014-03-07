@@ -34,7 +34,7 @@
 # include <pthread.h>
 #endif
 
-#if HAVE_LIBGCRYPT_H
+#if HAVE_GCRYPT_H
 # include <gcrypt.h>
 GCRY_THREAD_OPTION_PTHREAD_IMPL;
 #endif
@@ -597,7 +597,7 @@ static int wh_config (oconfig_item_t *ci) /* {{{ */
 
 static int wh_init (void) /* {{{ */
 {
-#if HAVE_LIBGCRYPT_H
+#if HAVE_GCRYPT_H
   gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
 #endif
   /* Call this while collectd is still single-threaded to avoid
