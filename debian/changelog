@@ -1,3 +1,10 @@
+collectd-pw (5.4.0.20140219-1+caesqueeze6) cae-squeeze-backports; urgency=low
+
+  * Make sure that hack happens when collectd is still single threaded, else
+    it won't work for squeeze.
+
+ -- Brian Kroth <bpkroth@gmail.com>  Sat, 08 Mar 2014 15:05:16 -0600
+
 collectd-pw (5.4.0.20140219-1+caesqueeze5) cae-squeeze-backports; urgency=low
 
   * Turn that fix into a dpatch.
