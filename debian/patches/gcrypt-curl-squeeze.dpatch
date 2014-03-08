@@ -6,8 +6,8 @@
 
 @DPATCH@
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/Makefile.am collectd-pw/src/Makefile.am
---- collectd-pw~/src/Makefile.am	2014-03-08 14:43:04.000000000 -0600
-+++ collectd-pw/src/Makefile.am	2014-03-08 14:43:25.419954996 -0600
+--- collectd-pw~/src/Makefile.am	2014-03-08 14:53:53.000000000 -0600
++++ collectd-pw/src/Makefile.am	2014-03-08 14:56:49.038857758 -0600
 @@ -832,6 +832,10 @@
  network_la_CPPFLAGS += $(GCRYPT_CPPFLAGS)
  network_la_LDFLAGS += $(GCRYPT_LDFLAGS)
@@ -20,8 +20,8 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  collectd_LDADD += "-dlopen" network.la
  collectd_DEPENDENCIES += network.la
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/apache.c collectd-pw/src/apache.c
---- collectd-pw~/src/apache.c	2014-03-08 14:43:04.000000000 -0600
-+++ collectd-pw/src/apache.c	2014-03-08 14:43:10.303674424 -0600
+--- collectd-pw~/src/apache.c	2014-03-08 14:53:53.000000000 -0600
++++ collectd-pw/src/apache.c	2014-03-08 14:56:49.038857758 -0600
 @@ -29,6 +29,16 @@
  #include "plugin.h"
  #include "configfile.h"
@@ -54,8 +54,8 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  } /* }}} int apache_init */
  
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/bind.c collectd-pw/src/bind.c
---- collectd-pw~/src/bind.c	2014-03-08 14:43:04.000000000 -0600
-+++ collectd-pw/src/bind.c	2014-03-08 14:43:10.303674424 -0600
+--- collectd-pw~/src/bind.c	2014-03-08 14:53:53.000000000 -0600
++++ collectd-pw/src/bind.c	2014-03-08 14:56:49.038857758 -0600
 @@ -46,6 +46,16 @@
  # include <sys/select.h>
  #endif
@@ -89,8 +89,8 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
    curl = curl_easy_init ();
    if (curl == NULL)
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/collectd.c collectd-pw/src/collectd.c
---- collectd-pw~/src/collectd.c	2014-03-08 14:43:04.000000000 -0600
-+++ collectd-pw/src/collectd.c	2014-03-08 14:43:10.303674424 -0600
+--- collectd-pw~/src/collectd.c	2014-03-08 14:53:53.000000000 -0600
++++ collectd-pw/src/collectd.c	2014-03-08 14:58:45.781020630 -0600
 @@ -29,6 +29,12 @@
  
  #include <pthread.h>
@@ -104,9 +104,9 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  #include "plugin.h"
  #include "configfile.h"
  
-@@ -587,6 +593,13 @@
- 		return (1);
- 	}
+@@ -455,6 +461,13 @@
+ 	if (optind < argc)
+ 		exit_usage (1);
  
 +#if HAVE_GCRYPT_H
 +	/* HACK!  For the Debian Squeeze versions of curl/gnutls/gcrypt, this *must*
@@ -115,12 +115,12 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
 +	gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
 +#endif
 +
+ 	plugin_init_ctx ();
+ 
  	/*
- 	 * run the actual loops
- 	 */
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/curl.c collectd-pw/src/curl.c
---- collectd-pw~/src/curl.c	2014-03-08 14:43:04.000000000 -0600
-+++ collectd-pw/src/curl.c	2014-03-08 14:43:10.307674498 -0600
+--- collectd-pw~/src/curl.c	2014-03-08 14:53:53.000000000 -0600
++++ collectd-pw/src/curl.c	2014-03-08 14:56:49.038857758 -0600
 @@ -28,6 +28,16 @@
  #include "utils_match.h"
  #include "utils_time.h"
@@ -151,8 +151,8 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  } /* }}} int cc_init */
  
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/curl_json.c collectd-pw/src/curl_json.c
---- collectd-pw~/src/curl_json.c	2014-03-08 14:43:04.000000000 -0600
-+++ collectd-pw/src/curl_json.c	2014-03-08 14:43:10.307674498 -0600
+--- collectd-pw~/src/curl_json.c	2014-03-08 14:53:53.000000000 -0600
++++ collectd-pw/src/curl_json.c	2014-03-08 14:56:49.038857758 -0600
 @@ -32,6 +32,16 @@
  #include <sys/types.h>
  #include <sys/un.h>
@@ -185,8 +185,8 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  } /* }}} int cj_init */
  
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/curl_xml.c collectd-pw/src/curl_xml.c
---- collectd-pw~/src/curl_xml.c	2014-03-08 14:43:04.000000000 -0600
-+++ collectd-pw/src/curl_xml.c	2014-03-08 14:43:10.307674498 -0600
+--- collectd-pw~/src/curl_xml.c	2014-03-08 14:53:53.000000000 -0600
++++ collectd-pw/src/curl_xml.c	2014-03-08 14:56:49.038857758 -0600
 @@ -30,6 +30,16 @@
  #include <libxml/xpath.h>
  #include <libxml/xpathInternals.h>
@@ -219,8 +219,8 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  } /* }}} int cx_init */
  
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/network.c collectd-pw/src/network.c
---- collectd-pw~/src/network.c	2014-03-08 14:43:04.000000000 -0600
-+++ collectd-pw/src/network.c	2014-03-08 14:43:10.307674498 -0600
+--- collectd-pw~/src/network.c	2014-03-08 14:53:53.000000000 -0600
++++ collectd-pw/src/network.c	2014-03-08 14:56:49.038857758 -0600
 @@ -72,6 +72,7 @@
   */
  # define GCRYPT_NO_DEPRECATED
@@ -249,8 +249,8 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  #endif
  
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/write_http.c collectd-pw/src/write_http.c
---- collectd-pw~/src/write_http.c	2014-03-08 14:43:04.000000000 -0600
-+++ collectd-pw/src/write_http.c	2014-03-08 14:43:10.307674498 -0600
+--- collectd-pw~/src/write_http.c	2014-03-08 14:53:53.000000000 -0600
++++ collectd-pw/src/write_http.c	2014-03-08 14:56:49.038857758 -0600
 @@ -34,6 +34,12 @@
  # include <pthread.h>
  #endif
