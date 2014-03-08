@@ -6,8 +6,8 @@
 
 @DPATCH@
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/apache.c collectd-pw/src/apache.c
---- collectd-pw~/src/apache.c	2014-03-07 19:57:12.000000000 -0600
-+++ collectd-pw/src/apache.c	2014-03-07 20:00:27.808161013 -0600
+--- collectd-pw~/src/apache.c	2014-03-07 20:02:48.000000000 -0600
++++ collectd-pw/src/apache.c	2014-03-07 20:04:13.888285442 -0600
 @@ -29,6 +29,16 @@
  #include "plugin.h"
  #include "configfile.h"
@@ -30,9 +30,9 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  static int apache_init (void) /* {{{ */
  {
 +#if HAVE_GCRYPT_H
-+	gcry_control (GCRYCTL_SET_THREAD_CBS);
-+#endif
++	gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
 +	gnutls_global_init();
++#endif
  	/* Call this while collectd is still single-threaded to avoid
  	 * initialization issues in libgcrypt. */
 -	curl_global_init (CURL_GLOBAL_SSL);
@@ -41,8 +41,8 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  } /* }}} int apache_init */
  
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/bind.c collectd-pw/src/bind.c
---- collectd-pw~/src/bind.c	2014-03-07 19:57:12.000000000 -0600
-+++ collectd-pw/src/bind.c	2014-03-07 20:00:29.752196383 -0600
+--- collectd-pw~/src/bind.c	2014-03-07 20:02:48.000000000 -0600
++++ collectd-pw/src/bind.c	2014-03-07 20:04:26.840523051 -0600
 @@ -46,6 +46,16 @@
  # include <sys/select.h>
  #endif
@@ -65,9 +65,9 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
      return (0);
  
 +#if HAVE_GCRYPT_H
-+  gcry_control (GCRYCTL_SET_THREAD_CBS);
-+#endif
++  gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
 +  gnutls_global_init();
++#endif
 +
    /* Call this while collectd is still single-threaded to avoid
     * initialization issues in libgcrypt. */
@@ -77,8 +77,8 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
    curl = curl_easy_init ();
    if (curl == NULL)
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/curl.c collectd-pw/src/curl.c
---- collectd-pw~/src/curl.c	2014-03-07 19:57:12.000000000 -0600
-+++ collectd-pw/src/curl.c	2014-03-07 20:00:15.479932869 -0600
+--- collectd-pw~/src/curl.c	2014-03-07 20:02:48.000000000 -0600
++++ collectd-pw/src/curl.c	2014-03-07 20:03:24.223381879 -0600
 @@ -28,6 +28,16 @@
  #include "utils_match.h"
  #include "utils_time.h"
@@ -103,15 +103,15 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
 -  curl_global_init (CURL_GLOBAL_SSL);
 +#if HAVE_GCRYPT_H
 +  gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
-+#endif
 +  gnutls_global_init();
++#endif
 +  curl_global_init (CURL_GLOBAL_ALL);
    return (0);
  } /* }}} int cc_init */
  
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/curl_json.c collectd-pw/src/curl_json.c
---- collectd-pw~/src/curl_json.c	2014-03-07 19:57:12.000000000 -0600
-+++ collectd-pw/src/curl_json.c	2014-03-07 20:00:19.472006968 -0600
+--- collectd-pw~/src/curl_json.c	2014-03-07 20:02:48.000000000 -0600
++++ collectd-pw/src/curl_json.c	2014-03-07 20:03:40.623680278 -0600
 @@ -32,6 +32,16 @@
  #include <sys/types.h>
  #include <sys/un.h>
@@ -134,9 +134,9 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  static int cj_init (void) /* {{{ */
  {
 +#if HAVE_GCRYPT_H
-+  gcry_control (GCRYCTL_SET_THREAD_CBS);
-+#endif
++  gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
 +  gnutls_global_init();
++#endif
    /* Call this while collectd is still single-threaded to avoid
     * initialization issues in libgcrypt. */
 -  curl_global_init (CURL_GLOBAL_SSL);
@@ -145,8 +145,8 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  } /* }}} int cj_init */
  
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/curl_xml.c collectd-pw/src/curl_xml.c
---- collectd-pw~/src/curl_xml.c	2014-03-07 19:57:12.000000000 -0600
-+++ collectd-pw/src/curl_xml.c	2014-03-07 20:00:21.716048375 -0600
+--- collectd-pw~/src/curl_xml.c	2014-03-07 20:02:48.000000000 -0600
++++ collectd-pw/src/curl_xml.c	2014-03-07 20:03:48.539824182 -0600
 @@ -30,6 +30,17 @@
  #include <libxml/xpath.h>
  #include <libxml/xpathInternals.h>
@@ -170,9 +170,9 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  static int cx_init (void) /* {{{ */
  {
 +#if HAVE_GCRYPT_H
-+  gcry_control (GCRYCTL_SET_THREAD_CBS);
-+#endif
++  gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
 +  gnutls_global_init();
++#endif
    /* Call this while collectd is still single-threaded to avoid
     * initialization issues in libgcrypt. */
 -  curl_global_init (CURL_GLOBAL_SSL);
@@ -181,8 +181,8 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  } /* }}} int cx_init */
  
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/network.c collectd-pw/src/network.c
---- collectd-pw~/src/network.c	2014-03-07 19:57:12.000000000 -0600
-+++ collectd-pw/src/network.c	2014-03-07 19:57:22.176740117 -0600
+--- collectd-pw~/src/network.c	2014-03-07 20:02:48.000000000 -0600
++++ collectd-pw/src/network.c	2014-03-07 20:02:54.902848481 -0600
 @@ -500,6 +500,9 @@
  #if HAVE_LIBGCRYPT
  static void network_init_gcrypt (void) /* {{{ */
@@ -204,8 +204,8 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  } /* }}} void network_init_gcrypt */
  
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/write_http.c collectd-pw/src/write_http.c
---- collectd-pw~/src/write_http.c	2014-03-07 19:57:12.000000000 -0600
-+++ collectd-pw/src/write_http.c	2014-03-07 20:00:23.964091192 -0600
+--- collectd-pw~/src/write_http.c	2014-03-07 20:02:48.000000000 -0600
++++ collectd-pw/src/write_http.c	2014-03-07 20:04:02.372075184 -0600
 @@ -34,6 +34,12 @@
  # include <pthread.h>
  #endif
@@ -224,9 +224,9 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  static int wh_init (void) /* {{{ */
  {
 +#if HAVE_GCRYPT_H
-+  gcry_control (GCRYCTL_SET_THREAD_CBS);
-+#endif
++  gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
 +  gnutls_global_init();
++#endif
    /* Call this while collectd is still single-threaded to avoid
     * initialization issues in libgcrypt. */
 -  curl_global_init (CURL_GLOBAL_SSL);
