@@ -6,9 +6,9 @@
 
 @DPATCH@
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/apache.c collectd-pw/src/apache.c
---- collectd-pw~/src/apache.c	2014-03-07 16:17:12.000000000 -0600
-+++ collectd-pw/src/apache.c	2014-03-07 19:47:05.225368366 -0600
-@@ -29,6 +29,15 @@
+--- collectd-pw~/src/apache.c	2014-03-07 19:57:12.000000000 -0600
++++ collectd-pw/src/apache.c	2014-03-07 20:00:27.808161013 -0600
+@@ -29,6 +29,16 @@
  #include "plugin.h"
  #include "configfile.h"
  
@@ -17,6 +17,7 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
 +#endif
 +
 +#if HAVE_GCRYPT_H
++# include <gnutls/gnutls.h>
 +# include <gcrypt.h>
 +GCRY_THREAD_OPTION_PTHREAD_IMPL;
 +#endif
@@ -24,7 +25,7 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  #include <curl/curl.h>
  
  enum server_enum
-@@ -673,9 +682,13 @@
+@@ -673,9 +683,13 @@
  
  static int apache_init (void) /* {{{ */
  {
@@ -40,9 +41,9 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  } /* }}} int apache_init */
  
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/bind.c collectd-pw/src/bind.c
---- collectd-pw~/src/bind.c	2014-03-07 16:17:12.000000000 -0600
-+++ collectd-pw/src/bind.c	2014-03-07 19:47:25.641745053 -0600
-@@ -46,6 +46,15 @@
+--- collectd-pw~/src/bind.c	2014-03-07 19:57:12.000000000 -0600
++++ collectd-pw/src/bind.c	2014-03-07 20:00:29.752196383 -0600
+@@ -46,6 +46,16 @@
  # include <sys/select.h>
  #endif
  
@@ -51,6 +52,7 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
 +#endif
 +
 +#if HAVE_GCRYPT_H
++# include <gnutls/gnutls.h>
 +# include <gcrypt.h>
 +GCRY_THREAD_OPTION_PTHREAD_IMPL;
 +#endif
@@ -58,7 +60,7 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  #include <curl/curl.h>
  #include <libxml/parser.h>
  #include <libxml/xpath.h>
-@@ -1386,9 +1395,14 @@
+@@ -1386,9 +1396,14 @@
    if (curl != NULL)
      return (0);
  
@@ -75,9 +77,9 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
    curl = curl_easy_init ();
    if (curl == NULL)
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/curl.c collectd-pw/src/curl.c
---- collectd-pw~/src/curl.c	2014-03-07 16:17:12.000000000 -0600
-+++ collectd-pw/src/curl.c	2014-03-07 19:45:58.900144967 -0600
-@@ -28,6 +28,15 @@
+--- collectd-pw~/src/curl.c	2014-03-07 19:57:12.000000000 -0600
++++ collectd-pw/src/curl.c	2014-03-07 20:00:15.479932869 -0600
+@@ -28,6 +28,16 @@
  #include "utils_match.h"
  #include "utils_time.h"
  
@@ -86,6 +88,7 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
 +#endif
 +
 +#if HAVE_GCRYPT_H
++# include <gnutls/gnutls.h>
 +# include <gcrypt.h>
 +GCRY_THREAD_OPTION_PTHREAD_IMPL;
 +#endif
@@ -93,7 +96,7 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  #include <curl/curl.h>
  
  /*
-@@ -569,7 +578,11 @@
+@@ -569,7 +579,11 @@
      INFO ("curl plugin: No pages have been defined.");
      return (-1);
    }
@@ -107,9 +110,9 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  } /* }}} int cc_init */
  
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/curl_json.c collectd-pw/src/curl_json.c
---- collectd-pw~/src/curl_json.c	2014-03-07 16:17:12.000000000 -0600
-+++ collectd-pw/src/curl_json.c	2014-03-07 19:46:29.076702313 -0600
-@@ -32,6 +32,15 @@
+--- collectd-pw~/src/curl_json.c	2014-03-07 19:57:12.000000000 -0600
++++ collectd-pw/src/curl_json.c	2014-03-07 20:00:19.472006968 -0600
+@@ -32,6 +32,16 @@
  #include <sys/types.h>
  #include <sys/un.h>
  
@@ -118,6 +121,7 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
 +#endif
 +
 +#if HAVE_GCRYPT_H
++# include <gnutls/gnutls.h>
 +# include <gcrypt.h>
 +GCRY_THREAD_OPTION_PTHREAD_IMPL;
 +#endif
@@ -125,7 +129,7 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  #include <curl/curl.h>
  
  #include <yajl/yajl_parse.h>
-@@ -958,9 +967,13 @@
+@@ -958,9 +968,13 @@
  
  static int cj_init (void) /* {{{ */
  {
@@ -141,9 +145,9 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  } /* }}} int cj_init */
  
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/curl_xml.c collectd-pw/src/curl_xml.c
---- collectd-pw~/src/curl_xml.c	2014-03-07 16:17:12.000000000 -0600
-+++ collectd-pw/src/curl_xml.c	2014-03-07 19:46:35.620821900 -0600
-@@ -30,6 +30,16 @@
+--- collectd-pw~/src/curl_xml.c	2014-03-07 19:57:12.000000000 -0600
++++ collectd-pw/src/curl_xml.c	2014-03-07 20:00:21.716048375 -0600
+@@ -30,6 +30,17 @@
  #include <libxml/xpath.h>
  #include <libxml/xpathInternals.h>
  
@@ -153,6 +157,7 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
 +#endif
 +
 +#if HAVE_GCRYPT_H
++# include <gnutls/gnutls.h>
 +# include <gcrypt.h>
 +GCRY_THREAD_OPTION_PTHREAD_IMPL;
 +#endif
@@ -160,7 +165,7 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  #include <curl/curl.h>
  
  #define CX_DEFAULT_HOST "localhost"
-@@ -1034,9 +1044,13 @@
+@@ -1034,9 +1045,13 @@
  
  static int cx_init (void) /* {{{ */
  {
@@ -176,8 +181,8 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  } /* }}} int cx_init */
  
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/network.c collectd-pw/src/network.c
---- collectd-pw~/src/network.c	2014-03-07 15:21:15.000000000 -0600
-+++ collectd-pw/src/network.c	2014-03-07 19:49:16.115781634 -0600
+--- collectd-pw~/src/network.c	2014-03-07 19:57:12.000000000 -0600
++++ collectd-pw/src/network.c	2014-03-07 19:57:22.176740117 -0600
 @@ -500,6 +500,9 @@
  #if HAVE_LIBGCRYPT
  static void network_init_gcrypt (void) /* {{{ */
@@ -199,13 +204,14 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  } /* }}} void network_init_gcrypt */
  
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/write_http.c collectd-pw/src/write_http.c
---- collectd-pw~/src/write_http.c	2014-03-07 16:17:12.000000000 -0600
-+++ collectd-pw/src/write_http.c	2014-03-07 19:46:44.988995094 -0600
-@@ -34,6 +34,11 @@
+--- collectd-pw~/src/write_http.c	2014-03-07 19:57:12.000000000 -0600
++++ collectd-pw/src/write_http.c	2014-03-07 20:00:23.964091192 -0600
+@@ -34,6 +34,12 @@
  # include <pthread.h>
  #endif
  
 +#if HAVE_GCRYPT_H
++# include <gnutls/gnutls.h>
 +# include <gcrypt.h>
 +GCRY_THREAD_OPTION_PTHREAD_IMPL;
 +#endif
@@ -213,7 +219,7 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  #include <curl/curl.h>
  
  /*
-@@ -592,9 +597,13 @@
+@@ -592,9 +598,13 @@
  
  static int wh_init (void) /* {{{ */
  {
