@@ -7,7 +7,7 @@
 @DPATCH@
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/apache.c collectd-pw/src/apache.c
 --- collectd-pw~/src/apache.c	2014-03-07 20:20:54.000000000 -0600
-+++ collectd-pw/src/apache.c	2014-03-08 13:41:42.119752652 -0600
++++ collectd-pw/src/apache.c	2014-03-08 13:58:03.065860951 -0600
 @@ -29,6 +29,16 @@
  #include "plugin.h"
  #include "configfile.h"
@@ -41,7 +41,7 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/bind.c collectd-pw/src/bind.c
 --- collectd-pw~/src/bind.c	2014-03-07 20:20:54.000000000 -0600
-+++ collectd-pw/src/bind.c	2014-03-08 13:41:44.407793749 -0600
++++ collectd-pw/src/bind.c	2014-03-08 13:58:03.065860951 -0600
 @@ -46,6 +46,16 @@
  # include <sys/select.h>
  #endif
@@ -74,9 +74,39 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  
    curl = curl_easy_init ();
    if (curl == NULL)
+diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/collectd.c collectd-pw/src/collectd.c
+--- collectd-pw~/src/collectd.c	2014-03-06 15:55:41.000000000 -0600
++++ collectd-pw/src/collectd.c	2014-03-08 14:13:27.574924457 -0600
+@@ -29,6 +29,12 @@
+ 
+ #include <pthread.h>
+ 
++#if HAVE_GCRYPT_H
++# include <gcrypt.h>
++# include <errno.h>
++GCRY_THREAD_OPTION_PTHREAD_IMPL;
++#endif
++
+ #include "plugin.h"
+ #include "configfile.h"
+ 
+@@ -587,6 +593,13 @@
+ 		return (1);
+ 	}
+ 
++#if HAVE_GCRYPT_H
++	/* HACK!  For the Debian Squeeze versions of curl/gnutls/gcrypt, this *must*
++	 * be called before the program starts any threads or else it won't
++	 * work. */
++	gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
++#endif
++
+ 	/*
+ 	 * run the actual loops
+ 	 */
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/curl.c collectd-pw/src/curl.c
 --- collectd-pw~/src/curl.c	2014-03-07 20:20:54.000000000 -0600
-+++ collectd-pw/src/curl.c	2014-03-08 13:41:29.467517494 -0600
++++ collectd-pw/src/curl.c	2014-03-08 13:58:03.065860951 -0600
 @@ -28,6 +28,16 @@
  #include "utils_match.h"
  #include "utils_time.h"
@@ -108,7 +138,7 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/curl_json.c collectd-pw/src/curl_json.c
 --- collectd-pw~/src/curl_json.c	2014-03-07 20:20:54.000000000 -0600
-+++ collectd-pw/src/curl_json.c	2014-03-08 13:41:33.895599901 -0600
++++ collectd-pw/src/curl_json.c	2014-03-08 13:58:03.065860951 -0600
 @@ -32,6 +32,16 @@
  #include <sys/types.h>
  #include <sys/un.h>
@@ -142,7 +172,7 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/curl_xml.c collectd-pw/src/curl_xml.c
 --- collectd-pw~/src/curl_xml.c	2014-03-07 20:20:54.000000000 -0600
-+++ collectd-pw/src/curl_xml.c	2014-03-08 13:41:36.787653022 -0600
++++ collectd-pw/src/curl_xml.c	2014-03-08 13:58:03.065860951 -0600
 @@ -30,6 +30,16 @@
  #include <libxml/xpath.h>
  #include <libxml/xpathInternals.h>
@@ -176,7 +206,7 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/network.c collectd-pw/src/network.c
 --- collectd-pw~/src/network.c	2014-03-07 20:20:54.000000000 -0600
-+++ collectd-pw/src/network.c	2014-03-08 13:41:23.247403103 -0600
++++ collectd-pw/src/network.c	2014-03-08 13:58:03.065860951 -0600
 @@ -72,6 +72,7 @@
   */
  # define GCRYPT_NO_DEPRECATED
@@ -206,7 +236,7 @@ diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' 
  
 diff -urNad '--exclude=CVS' '--exclude=.svn' '--exclude=.git' '--exclude=.arch' '--exclude=.hg' '--exclude=_darcs' '--exclude=.bzr' collectd-pw~/src/write_http.c collectd-pw/src/write_http.c
 --- collectd-pw~/src/write_http.c	2014-03-07 20:20:54.000000000 -0600
-+++ collectd-pw/src/write_http.c	2014-03-08 13:41:39.443701816 -0600
++++ collectd-pw/src/write_http.c	2014-03-08 13:58:03.065860951 -0600
 @@ -34,6 +34,12 @@
  # include <pthread.h>
  #endif
